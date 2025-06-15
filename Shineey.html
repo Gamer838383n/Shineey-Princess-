@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Special Game for Shineey Tewari</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      text-align: center;
+      padding: 50px;
+    }
+    .hidden { display: none; }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #ffffffaa;
+    }
+    #message {
+      font-size: 1.5em;
+      color: #4b0082;
+      margin-top: 30px;
+    }
+    #profile-img {
+      width: 200px;
+      height: auto;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hey Shineey Tewari! Ready for a little game? ✨</h1>
+
+  <img src="/mnt/data/file-2gKhqSZGnCAHSLw8G9GZi2" alt="Shineey's Photo" id="profile-img">
+
+  <audio autoplay loop>
+    <source src="https://dl.dropboxusercontent.com/s/1ke5gkqnsifsc32/Chand%20Baliyan.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div id="colorSection">
+    <p>Choose a color:</p>
+    <div id="colors"></div>
+  </div>
+
+  <div id="riddleSection" class="hidden">
+    <p id="riddle1"></p>
+    <input type="text" id="answer1" placeholder="Your answer here">
+    <button onclick="checkRiddle1()">Submit</button>
+    <p id="feedback1"></p>
+  </div>
+
+  <div id="riddleSection2" class="hidden">
+    <p id="riddle2"></p>
+    <input type="text" id="answer2" placeholder="Your answer here">
+    <button onclick="checkRiddle2()">Submit</button>
+    <p id="feedback2"></p>
+  </div>
+
+  <div id="message" class="hidden"></div>
+
+  <script>
+    const riddles = {
+      "Red": [
+        { q: "I speak without a mouth and hear without ears. What am I?", a: "echo" },
+        { q: "The more of me you take, the more you leave behind. What am I?", a: "footsteps" }
+      ],
+      "Blue": [
+        { q: "What has keys but can't open locks?", a: "piano" },
+        { q: "What comes once in a minute, twice in a moment, but never in a thousand years?", a: "m" }
+      ],
+      "Yellow": [
+        { q: "I’m not alive, but I grow. I don’t have lungs, but I need air. What am I?", a: "fire" },
+        { q: "What gets wetter the more it dries?", a: "towel" }
+      ],
+      "Green": [
+        { q: "I have branches, but no fruit, trunk or leaves. What am I?", a: "bank" },
+        { q: "What invention lets you look right through a wall?", a: "window" }
+      ],
+      "Orange": [
+        { q: "What can travel around the world while staying in the same corner?", a: "stamp" },
+        { q: "What begins with T, finishes with T, and has T in it?", a: "teapot" }
+      ],
+      "Purple": [
+        { q: "What has hands but can't clap?", a: "clock" },
+        { q: "What runs but never walks, has a bed but never sleeps?", a: "river" }
+      ],
+      "Pink": [
+        { q: "What has a head, a tail, but no body?", a: "coin" },
+        { q: "What is always in front of you but can’t be seen?", a: "future" }
+      ],
+      "Black": [
+        { q: "What goes up but never comes down?", a: "age" },
+        { q: "What has one eye but can’t see?", a: "needle" }
+      ],
+      "White": [
+        { q: "What can you catch but not throw?", a: "cold" },
+        { q: "What is full of holes but still holds water?", a: "sponge" }
+      ],
+      "Brown": [
+        { q: "What gets bigger when more is taken away?", a: "hole" },
+        { q: "What has legs but doesn’t walk?", a: "table" }
+      ],
+      "Cyan": [
+        { q: "The more you take away from me, the bigger I get. What am I?", a: "hole" },
+        { q: "What belongs to you but others use it more than you do?", a: "name" }
+      ],
+      "Teal": [
+        { q: "What comes down but never goes up?", a: "rain" },
+        { q: "Where does today come before yesterday?", a: "dictionary" }
+      ],
+      "Gold": [
+        { q: "What can fill a room but takes up no space?", a: "light" },
+        { q: "What has many teeth but cannot bite?", a: "comb" }
+      ],
+      "Silver": [
+        { q: "What can’t talk but will reply when spoken to?", a: "echo" },
+        { q: "What has words but never speaks?", a: "book" }
+      ],
+      "Lavender": [
+        { q: "What is always moving but never actually moves?", a: "time" },
+        { q: "What can’t be used until it’s broken?", a: "egg" }
+      ]
+    };
+
+    const compliments = {
+      "Red": "You’re bold, brilliant, and full of good vibes. You light up every room you enter. Hence Shineey for a reason❤️",
+      "Blue": "Calm, composed, and endlessly wise — just like King. 💙",
+      "Yellow": "Shineey, you're sunshine in human form. Bright, warm, and cheerful! 💛",
+      "Green": "Tu haina sukoon deti hai just like the nature. 💚",
+      "Orange": "You radiate creativity and positivity. You're a true spark! (In my life as well)🧡",
+      "Purple": "Elegant, imaginative, and so graceful — that’s you meri Shin. 💜",
+      "Pink": "Your kindness, softness, and charm make everything better. 💕 and for me it healed me",
+      "Black": "Powerful and timeless. Just like your spirit. 🖤Racist Shinnnn",
+      "White": "Pure-hearted and peaceful — you bring calm wherever you go. 🤍 , angel Shineey",
+      "Brown": "Steady, wise, and strong. You're a grounding force. 🤎, mela teddy bear hai tu",
+      "Cyan": "Vibrant and full of energy — your vibe is magnetic and attractive 🔷",
+      "Teal": "A unique soul with depth and tranquility. 💠",
+      "Gold": "You shine with unmatched brilliance and warmth. 🌟, my kohinoor you are",
+      "Silver": "Sharp, smart, and stunning — you glow with grace. ✨, kitni tareef karu isme I say I'm the best",
+      "Lavender": "A beautiful mix of calm and charm. You're truly enchanting. 🌸 , most beautiful girl of all time by god"
+    };
+
+    let selectedRiddles = [];
+    let selectedColor = "";
+
+    const colors = Object.keys(riddles);
+    const colorContainer = document.getElementById('colors');
+    colors.forEach(color => {
+      const btn = document.createElement('button');
+      btn.textContent = color;
+      btn.onclick = () => chooseColor(color);
+      colorContainer.appendChild(btn);
+    });
+
+    function chooseColor(color) {
+      selectedColor = color;
+      selectedRiddles = riddles[color];
+      document.getElementById('colorSection').classList.add('hidden');
+      document.getElementById('riddle1').textContent = selectedRiddles[0].q;
+      document.getElementById('riddleSection').classList.remove('hidden');
+    }
+
+    function checkRiddle1() {
+      const ans = document.getElementById('answer1').value.trim().toLowerCase();
+      if (ans === selectedRiddles[0].a) {
+        document.getElementById('feedback1').textContent = 'Correct! 🎉';
+        document.getElementById('riddleSection').classList.add('hidden');
+        document.getElementById('riddle2').textContent = selectedRiddles[1].q;
+        document.getElementById('riddleSection2').classList.remove('hidden');
+      } else {
+        document.getElementById('feedback1').textContent = 'Oops! Try again 😊';
+      }
+    }
+
+    function checkRiddle2() {
+      const ans = document.getElementById('answer2').value.trim().toLowerCase();
+      if (ans === selectedRiddles[1].a) {
+        document.getElementById('feedback2').textContent = 'Correct again! 🌟';
+        document.getElementById('riddleSection2').classList.add('hidden');
+        document.getElementById('message').textContent = compliments[selectedColor];
+        document.getElementById('message').classList.remove('hidden');
+      } else {
+        document.getElementById('feedback2').textContent = 'Not quite! Give it another shot 🙌';
+      }
+    }
+  </script>
+</body>
+</html>
